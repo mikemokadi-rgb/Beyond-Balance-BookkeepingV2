@@ -1,0 +1,17 @@
+# Dev utilities
+serve.mjs
+screenshot.mjs
+seo.md
+
+# Agent instructions
+CLAUDE (1).md
+
+# Temp files
+.tmp/
+temporary screenshots/
+
+# Brand assets (internal docs, not needed for deployment)
+Brand_Assets/
+
+# Node
+node_modules/
