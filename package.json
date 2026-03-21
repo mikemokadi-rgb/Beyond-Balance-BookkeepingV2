@@ -1,0 +1,24 @@
+{
+  "name": "client-sites---wandile",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mikemokadi-rgb/Beyond-Balance-Bookkeeping.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/mikemokadi-rgb/Beyond-Balance-Bookkeeping/issues"
+  },
+  "homepage": "https://github.com/mikemokadi-rgb/Beyond-Balance-Bookkeeping#readme",
+  "dependencies": {
+    "puppeteer": "^24.40.0"
+  }
+}
