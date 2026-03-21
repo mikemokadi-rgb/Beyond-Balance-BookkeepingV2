@@ -10,8 +10,10 @@ CLAUDE (1).md
 .tmp/
 temporary screenshots/
 
-# Brand assets (internal docs, not needed for deployment)
-Brand_Assets/
+# Brand assets — exclude docs, keep images for deployment
+Brand_Assets/*.docx
+Brand_Assets/~$*
+Brand_Assets/*.jpeg
 
 # Node
 node_modules/
