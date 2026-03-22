@@ -13,7 +13,6 @@ temporary screenshots/
 # Brand assets — exclude docs, keep images for deployment
 Brand_Assets/*.docx
 Brand_Assets/~$*
-Brand_Assets/*.jpeg
 
 # Node
 node_modules/
