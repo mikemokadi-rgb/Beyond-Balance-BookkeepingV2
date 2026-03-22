@@ -11,7 +11,13 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Development
 
 ### Active File
-**`index-v4.html` is the current working version.** Earlier files (`index.html`, `index-v2.html`, `index-v3.html`) are reference snapshots — do not edit them unless explicitly asked.
+**`index-v4.html` is the current working version.** `index-v2.html` and `index-v3.html` are reference snapshots — do not edit them.
+
+`index.html` is **not** the original — it is a kept-in-sync copy of `index-v4.html` required by Vercel (Vercel serves `index.html` at the root). After every edit to `index-v4.html`, run:
+```bash
+cp index-v4.html index.html
+```
+Then commit and push **both** files.
 
 ### Local Dev Server
 ```bash
@@ -44,15 +50,24 @@ for (let y = 0; y < document.body.scrollHeight; y += 600) {
 ```
 Then use `getBoundingClientRect() + window.scrollY` for absolute page coordinates when clipping.
 
+### Deployment
+There are **two git remotes** — both must be pushed on every deploy:
+```bash
+git push origin main   # → mikemokadi-rgb/Beyond-Balance-Bookkeeping
+git push v2 main       # → mikemokadi-rgb/Beyond-Balance-BookkeepingV2 (Vercel source)
+```
+Vercel is connected to the `v2` remote and auto-deploys on push to `main`. The `vercel.json` rewrite sends `/` → `index-v4.html`, but `index.html` is also kept in sync as a fallback (see Active File above).
+
 ### File Structure (actual)
 ```
 Client Sites - Wandile/
 ├── CLAUDE.md                  ← this file
 ├── SEO_Optimization.md        ← SEO workflow rules (read before any SEO changes)
-├── index-v4.html              ← ACTIVE: current site
-├── index-v3.html              ← reference snapshot
-├── index-v2.html              ← reference snapshot
-├── index.html                 ← original/reference
+├── index-v4.html              ← ACTIVE: current site (edit this)
+├── index.html                 ← Vercel root copy — always sync from index-v4.html
+├── index-v3.html              ← reference snapshot (do not edit)
+├── index-v2.html              ← reference snapshot (do not edit)
+├── vercel.json                ← rewrites / → index-v4.html
 ├── sitemap.xml                ← XML sitemap (single URL, update lastmod on deploy)
 ├── robots.txt                 ← crawler directives + sitemap pointer
 ├── serve.mjs                  ← Node HTTP dev server (port 3000)
@@ -61,8 +76,8 @@ Client Sites - Wandile/
 │   └── screenshot-sections.js ← section-level Puppeteer capture
 ├── Brand_Assets/
 │   ├── Logo.png               ← brand logo (555×692px, dark navy bg)
-│   ├── Eddie - Head Shot.png  ← founder headshot
-│   └── WhatsApp Image *.jpeg  ← alternate photo (legacy)
+│   ├── Wandile - HeadShotv2.jpeg ← founder headshot — used in #founder section
+│   └── Wandile - HeadShot.jpeg   ← alternate headshot (legacy)
 ├── temporary screenshots/     ← screenshot.mjs output
 ├── .tmp/screenshots/          ← tools/screenshot-sections.js output
 └── node_modules/              ← puppeteer (installed)
@@ -387,11 +402,13 @@ See the **Development** section at the top of this file for the current actual s
 - Color contrast: all text meets WCAG AA (white on navy-deep passes, ice on navy-mid passes)
 
 ### Animation Rules
-- Decorative circles: CSS `@keyframes` with gentle translate transforms, 17–30s duration
+- Decorative circles: CSS `@keyframes` (`floatA/B/C`) with gentle translate transforms, 17–30s on desktop, **overridden to 70s on mobile** (`@media max-width:767px`)
+- Hero glow pulse: 4s desktop, 10s mobile; ring rotation: 18s desktop, 45s mobile
 - Cards/tiles: `translateY(-5px)` on hover with enhanced `box-shadow`
 - Buttons: `translateY(-2px)` on hover, `translateY(0)` on active
 - All transitions: 150–200ms ease
 - No animation on `prefers-reduced-motion: reduce`
+- Deco circles use inline `animation:` styles — mobile overrides require `!important` in the media query
 
 ### Performance
 - Inline all CSS (no external stylesheet beyond Tailwind CDN and Google Fonts)
