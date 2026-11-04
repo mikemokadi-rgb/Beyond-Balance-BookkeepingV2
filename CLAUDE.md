@@ -10,14 +10,13 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Development
 
-### Active File
-**`index-v4.html` is the current working version.** `index-v2.html` and `index-v3.html` are reference snapshots — do not edit them.
+### Active Files
+The site is now **`index.html` + `styles.css` + `app.js`** (Fractional CFO / Tax Strategy positioning, green-and-brass editorial design). Edit these directly.
+`index-v2/3/4.html` were deleted; the copy, colors, and fonts in sections 2–3 below describe that **older** navy/sky bookkeeping site and are kept for reference only. The live design tokens are the `:root` variables at the top of `styles.css`.
 
-`index.html` is **not** the original — it is a kept-in-sync copy of `index-v4.html` required by Vercel (Vercel serves `index.html` at the root). After every edit to `index-v4.html`, run:
-```bash
-cp index-v4.html index.html
-```
-Then commit and push **both** files.
+- Contact details used site-wide: phone 713-992-1716, email eddiembatha@gmail.com, booking https://calendly.com/beyondbalancebooking/30min (constants `CONTACT_EMAIL` / `BOOKING_URL` in `app.js`).
+- The consultation form has no backend: on submit it opens the visitor's email app with a pre-filled message to `CONTACT_EMAIL`.
+- `vercel.json` no longer rewrites `/`; Vercel serves `index.html` directly.
 
 ### Local Dev Server
 ```bash

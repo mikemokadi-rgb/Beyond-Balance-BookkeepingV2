@@ -4,6 +4,8 @@
 (function(){
   'use strict';
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var CONTACT_EMAIL = 'eddiembatha@gmail.com';
+  var BOOKING_URL = 'https://calendly.com/beyondbalancebooking/30min';
 
   /* ---------- mobile menu ---------- */
   var toggle = document.querySelector('.menu-toggle');
@@ -141,6 +143,7 @@
   if(back){
     back.addEventListener('click', function(e){ if(e.target === back) closeModal(); });
     back.querySelector('.close').addEventListener('click', closeModal);
+    back.addEventListener('click', function(e){ if(e.target.closest && e.target.closest('.done')) closeModal(); });
     document.addEventListener('keydown', function(e){
       if(e.key === 'Escape' && back.classList.contains('open')) closeModal();
     });
@@ -160,15 +163,32 @@
         if(!ok) valid = false;
       });
       if(!valid) return;
-      var name = (form.querySelector('#name').value || '').trim().split(' ')[0];
+      var val = function(id){ var f = form.querySelector('#' + id); return f ? f.value.trim() : ''; };
+      var intentSel = form.querySelector('#intent');
+      var intentLabel = intentSel ? intentSel.options[intentSel.selectedIndex].text : '';
+      var bodyLines = [
+        'Name: ' + val('name'),
+        'Email: ' + val('email'),
+        'Business: ' + (val('company') || '-'),
+        'Annual revenue: ' + val('revenue'),
+        'Interested in: ' + intentLabel,
+        '',
+        val('note')
+      ];
+      var mailto = 'mailto:' + CONTACT_EMAIL +
+        '?subject=' + encodeURIComponent('Consultation request: ' + (val('company') || val('name'))) +
+        '&body=' + encodeURIComponent(bodyLines.join('\n'));
+      window.location.href = mailto;
+      var name = val('name').split(' ')[0];
       modalBody.dataset.state = 'success';
       modalBody.innerHTML =
         '<div class="modal-success">' +
           '<div class="check"><svg width="30" height="30" viewBox="0 0 30 30"><path d="M7 15.5l5 5L23 9" fill="none" stroke="#2E8B5F" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>' +
-          '<span class="eyebrow center">Request received</span>' +
+          '<span class="eyebrow center">Almost done</span>' +
           '<h3>Thanks' + (name ? ', ' + escapeHtml(name) : '') + '.</h3>' +
-          '<p>We will reach out within one business day to schedule your consultation. Clarity creates confidence.</p>' +
-          '<button class="btn btn-primary submit" type="button" onclick="document.getElementById(\'consultModal\').classList.remove(\'open\');document.body.style.overflow=\'\';">Done</button>' +
+          '<p>Your email app should open with your request ready to send. Hit send and we\'ll reply within one business day.</p>' +
+          '<p class="fineprint">Nothing opened? Email <a href="mailto:' + CONTACT_EMAIL + '">' + CONTACT_EMAIL + '</a>, call <a href="tel:+17139921716">713-992-1716</a>, or <a href="' + BOOKING_URL + '" target="_blank" rel="noopener">book a time online</a>.</p>' +
+          '<button class="btn btn-primary submit done" type="button">Done</button>' +
         '</div>';
     });
     form.querySelectorAll('input,select').forEach(function(f){
